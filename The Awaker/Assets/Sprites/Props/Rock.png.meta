@@ -33,7 +33,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -506,7 +506,7 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       Rock_3: -1213178822
-      Rock_13: -1054422829
+      Rock_10: -2143718150
       Rock_15: 748927698
       Rock_9: -1450717912
       Rock_17: -732983836
@@ -522,7 +522,7 @@ TextureImporter:
       Rock_8: -1107037946
       Rock_1: 1323751201
       Rock_16: 128575447
-      Rock_10: -2143718150
+      Rock_13: -1054422829
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
