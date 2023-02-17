@@ -6,11 +6,13 @@ public class PlayerMovement : MonoBehaviour
 {
     public float speed = 0.005f;
     public Animator animator; 
+    public int energy;
 
     private bool facingRight;
 
     void Start() {
-        speed = 0.005f;
+        speed = 0.001f;
+        energy = 0;
     }
 
     private void Flip(float direction)
