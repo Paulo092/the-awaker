@@ -172,10 +172,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d19ba0332fd682459685c6340cd176e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nowSpeed: 0
-  walkSpeed: 0.01
-  runSpeed: 0.03
   animator: {fileID: 220798468}
+  nowSpeed: 0
 --- !u!212 &220798467
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -452,7 +450,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 220798464}
   orbPrefab: {fileID: 9076426935352017532, guid: c4a236ca3bfc46145a303da40dd40f09, type: 3}
-  spawnRadius: 0.1
+  spawnRadius: 1
   spawnTick: 20
   time: 0
 --- !u!1 &613544667

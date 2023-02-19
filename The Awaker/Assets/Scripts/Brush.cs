@@ -7,7 +7,7 @@ public class Brush : MonoBehaviour
     public Sprite asset;
     public Camera mainCamera;
 
-    public GameObject childObject;
+    public GameObject childObject, borderObject;
     private List<GameObject> tileObjects;
     private SpriteRenderer childSRenderer;
 
@@ -21,6 +21,7 @@ public class Brush : MonoBehaviour
     void Update() {
 
         childObject.transform.position = GetWorldMousePosition(Input.mousePosition, mainCamera);
+        borderObject.transform.position = GetWorldMousePosition(Input.mousePosition, mainCamera);
 
         childSRenderer.sprite = asset;
 

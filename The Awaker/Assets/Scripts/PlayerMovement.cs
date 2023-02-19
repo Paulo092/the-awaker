@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void Flip(float direction) {
-        if((direction > 0 && !facingRight) || (direction < 0 && facingRight) || direction == 0f) 
+        if((direction > 0 && facingRight) || (direction < 0 && !facingRight) || direction == 0f) 
             return;
         else {
             Vector3 theScale = transform.localScale;
@@ -31,7 +31,13 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate() {
         nowSpeed = Input.GetKey(KeyCode.LeftShift) ? runSpeed : walkSpeed;
 
-        animator.SetBool("isWalking", Input.GetAxis("Horizontal") != 0f || Input.GetAxis("Vertical") != 0f ? true : false);
+        if(Input.GetAxis("Horizontal") != 0f || Input.GetAxis("Vertical") != 0f) {
+            animator.SetBool("isWalking", nowSpeed == walkSpeed ? true : false);
+            animator.SetBool("isRunning", nowSpeed == runSpeed ? true : false);
+        } else {
+            animator.SetBool("isWalking", false);
+            animator.SetBool("isRunning", false);
+        }
 
         Flip(Input.GetAxis("Horizontal"));
 
