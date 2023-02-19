@@ -8,15 +8,42 @@ public class Brush : MonoBehaviour
     public Camera mainCamera;
 
     public GameObject childObject;
+    private List<GameObject> tileObjects;
     private SpriteRenderer childSRenderer;
 
+    private Vector3 placeCoord;
     private float offset = 0.16f;
 
-    // 0, 0
-    // 0, 0
+    void Start() {
+        childSRenderer = childObject.GetComponent<SpriteRenderer>();
+        tileObjects = new List<GameObject>();
+    }
+    void Update() {
 
-    // 1.00, 0
-    // 0.16, 0
+        childObject.transform.position = GetWorldMousePosition(Input.mousePosition, mainCamera);
+
+        childSRenderer.sprite = asset;
+
+        // Place
+        if(Input.GetMouseButton(0)) {
+            placeCoord = GetWorldMousePosition(Input.mousePosition, mainCamera);
+            if(!isOccuped(placeCoord))
+                tileObjects.Add(Instantiate(childObject, placeCoord, Quaternion.identity));
+        }
+
+        // Delete
+        // if(Input.GetMouseButtonDown(1)) Destroy(CreateGameObjectFromSprite(asset), GetWorldMousePosition(Input.mousePosition, mainCamera), Quaternion.identity);
+    }
+
+    bool isOccuped(Vector3 position) {
+        foreach (GameObject tile in tileObjects) {
+            if((System.Math.Round(position.x / offset) * offset) == tile.transform.position.x 
+            && (System.Math.Round(position.y / offset) * offset) == tile.transform.position.y)
+                return true;
+        }
+
+        return false;
+    }
 
     private Vector3 GetWorldMousePosition(Vector3 screenPosition, Camera mainCamera) {
         Vector3 mapPosition = mainCamera.ScreenToWorldPoint(screenPosition);
@@ -25,20 +52,5 @@ public class Brush : MonoBehaviour
         mapPosition.z = -1;
 
         return mapPosition;
-    }
-
-    void Start() {
-        childSRenderer = childObject.GetComponent<SpriteRenderer>();
-    }
-
-    void Update() {
-        childObject.transform.position = GetWorldMousePosition(Input.mousePosition, mainCamera);
-
-        childSRenderer.sprite = asset;
-
-        // Place
-        if(Input.GetMouseButtonDown(0)) Instantiate(childObject, GetWorldMousePosition(Input.mousePosition, mainCamera), Quaternion.identity);
-        // Delete
-        // if(Input.GetMouseButtonDown(1)) Destroy(CreateGameObjectFromSprite(asset), GetWorldMousePosition(Input.mousePosition, mainCamera), Quaternion.identity);
     }
 }

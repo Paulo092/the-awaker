@@ -173,8 +173,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nowSpeed: 0
-  walkSpeed: 0.001
-  runSpeed: 0.002
+  walkSpeed: 0.01
+  runSpeed: 0.03
   animator: {fileID: 220798468}
 --- !u!212 &220798467
 SpriteRenderer:
@@ -436,7 +436,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &535665474
 MonoBehaviour:
@@ -452,7 +452,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 220798464}
   orbPrefab: {fileID: 9076426935352017532, guid: c4a236ca3bfc46145a303da40dd40f09, type: 3}
-  spawnRadius: 30
+  spawnRadius: 0.1
   spawnTick: 20
   time: 0
 --- !u!1 &613544667
@@ -518,7 +518,7 @@ Transform:
   m_Children:
   - {fileID: 1476107934}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &881936445
 MonoBehaviour:
@@ -532,7 +532,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56c2c4a0eb0317147b5d1878206a48d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  asset: {fileID: -1213178822, guid: f27816099c00ede4e9083c5c52713a01, type: 3}
+  asset: {fileID: -18839467, guid: d8cc224820ac65844a46bc91c2da2796, type: 3}
   mainCamera: {fileID: 519420031}
   childObject: {fileID: 1476107933}
 --- !u!1 &1144055395
@@ -727,13 +727,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1782784386}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 220798465}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1941084149
 GameObject:
@@ -765,5 +765,5 @@ Transform:
   m_Children:
   - {fileID: 613544668}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
