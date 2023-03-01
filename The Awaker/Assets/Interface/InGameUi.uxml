@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Interface/StyleSheets/Buttons.uss?fileID=7433441132597879392&amp;guid=17bd3f686bb7a734d8cdf402840e5195&amp;type=3#Buttons" />
+    <ui:VisualElement name="Screen">
+        <ui:VisualElement name="BrushElements" style="width: 88px; height: 387px;">
+            <ui:Button text="Tile" display-tooltip-when-elided="true" name="TileModeSelect" />
+            <ui:Button text="Prop" display-tooltip-when-elided="true" name="PropModeSelect" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

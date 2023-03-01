@@ -8,7 +8,7 @@ public class Brush : MonoBehaviour
     public Camera mainCamera;
 
     public GameObject childObject, borderObject;
-    private List<GameObject> tileObjects;
+    private List<Vector3> tileObjects;
     private SpriteRenderer childSRenderer;
 
     private Vector3 placeCoord;
@@ -16,20 +16,19 @@ public class Brush : MonoBehaviour
 
     void Start() {
         childSRenderer = childObject.GetComponent<SpriteRenderer>();
-        tileObjects = new List<GameObject>();
+        tileObjects = new List<Vector3>();
     }
     void Update() {
 
         childObject.transform.position = GetWorldMousePosition(Input.mousePosition, mainCamera);
-        borderObject.transform.position = GetWorldMousePosition(Input.mousePosition, mainCamera);
+        borderObject.transform.position = new Vector3(childObject.transform.position.x, childObject.transform.position.y, -2) ;
 
         childSRenderer.sprite = asset;
 
         // Place
         if(Input.GetMouseButton(0)) {
-            placeCoord = GetWorldMousePosition(Input.mousePosition, mainCamera);
-            if(!isOccuped(placeCoord))
-                tileObjects.Add(Instantiate(childObject, placeCoord, Quaternion.identity));
+            if(!isOccuped(childObject.transform.position))
+                tileObjects.Add(Instantiate(childObject, childObject.transform.position, Quaternion.identity).transform.position);
         }
 
         // Delete
@@ -37,19 +36,25 @@ public class Brush : MonoBehaviour
     }
 
     bool isOccuped(Vector3 position) {
-        foreach (GameObject tile in tileObjects) {
-            if((System.Math.Round(position.x / offset) * offset) == tile.transform.position.x 
-            && (System.Math.Round(position.y / offset) * offset) == tile.transform.position.y)
+        foreach (Vector3 tile in tileObjects) {
+            // if((System.Math.Round(position.x / offset) * offset) == tile.x 
+            // && (System.Math.Round(position.y / offset) * offset) == tile.y)
+            //     return true;
+            if(GetSpacedPosition(position) == GetSpacedPosition(tile))
                 return true;
         }
 
         return false;
     }
 
+    Vector3 GetSpacedPosition(Vector3 position) {
+        return new Vector3((float) Mathf.Round(position.x / offset) * offset, (float) Mathf.Round(position.y / offset) * offset, position.z);
+    }
+
     private Vector3 GetWorldMousePosition(Vector3 screenPosition, Camera mainCamera) {
         Vector3 mapPosition = mainCamera.ScreenToWorldPoint(screenPosition);
-        mapPosition.x = (float) System.Math.Round(mapPosition.x / offset) * offset;
-        mapPosition.y = (float) System.Math.Round(mapPosition.y / offset) * offset;
+        mapPosition.x = (float) Mathf.Round(mapPosition.x / offset) * offset;
+        mapPosition.y = (float) Mathf.Round(mapPosition.y / offset) * offset;
         mapPosition.z = -1;
 
         return mapPosition;
