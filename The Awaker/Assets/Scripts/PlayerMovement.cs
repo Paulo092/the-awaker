@@ -32,11 +32,12 @@ public class PlayerMovement : MonoBehaviour
         nowSpeed = Input.GetKey(KeyCode.LeftShift) ? runSpeed : walkSpeed;
 
         if(Input.GetAxis("Horizontal") != 0f || Input.GetAxis("Vertical") != 0f) {
-            animator.SetBool("isWalking", nowSpeed == walkSpeed ? true : false);
-            animator.SetBool("isRunning", nowSpeed == runSpeed ? true : false);
+            animator.SetBool("isWalking", true);
+            // animator.SetBool("isWalking", nowSpeed == walkSpeed ? true : false);
+            // animator.SetBool("isRunning", nowSpeed == runSpeed ? true : false);
         } else {
             animator.SetBool("isWalking", false);
-            animator.SetBool("isRunning", false);
+            // animator.SetBool("isRunning", false);
         }
 
         Flip(Input.GetAxis("Horizontal"));
