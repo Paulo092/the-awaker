@@ -12,7 +12,7 @@ public class UserInterface : MonoBehaviour
         Button buttonTileSelect = root.Q<Button>("TileModeSelect");
         Button buttonPropSelect = root.Q<Button>("PropModeSelect");
 
-        // buttonTileSelect
+        // buttonTileSelect += () => ;
         // buttonPropSelect
     }
 }
