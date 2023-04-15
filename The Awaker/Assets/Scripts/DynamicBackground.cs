@@ -12,15 +12,18 @@ public class DynamicBackground : MonoBehaviour
     private YieldInstruction fadeInstruction = new YieldInstruction();
     private float fadeInTime = 0.2f;
     private float fadeTime = 2f;
+    private float padding = 100f;
     
     void Start() {
         InvokeRepeating("RandomAquarella", 1.0f, TimeCycle);
+        InvokeRepeating("RandomAquarella", 2.0f, TimeCycle + 1);
+        InvokeRepeating("RandomAquarella", 3.0f, TimeCycle - 1);
     }
 
     public void RandomAquarella() {
         Vector2 randomScreenPosition = new Vector2(
-                    Random.Range(-Screen.width, Screen.width), 
-                    Random.Range(-Screen.height, Screen.height)
+                    Random.Range(-Screen.width + padding, Screen.width - padding), 
+                    Random.Range(-Screen.height + padding, Screen.height - padding)
                 );
         
         float randomImageIndex = Random.Range(1f, 4f);
