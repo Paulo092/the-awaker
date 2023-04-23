@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
     public float nowSpeed;
     private bool facingRight;
 
-    public const float walkSpeed = 0.01f, runSpeed = 0.03f;
+    public const float walkSpeed = 0.02f, runSpeed = 0.03f;
 
     void Start() {
         nowSpeed = 0f;
