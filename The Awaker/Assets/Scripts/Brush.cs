@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 using UnityEngine;
 
 public class Brush : MonoBehaviour
@@ -24,6 +25,7 @@ public class Brush : MonoBehaviour
         textureIndex = 0;
         childSRenderer.sprite = hotbar[textureIndex];
     }
+
     void Update() {
 
         childObject.transform.position = GetWorldMousePosition(Input.mousePosition, mainCamera);
@@ -32,13 +34,19 @@ public class Brush : MonoBehaviour
         // childSRenderer.sprite = asset;
 
         // Place
-        if(Input.GetMouseButton(0)) {
-            if(!isOccuped(childObject.transform.position))
+        if(Input.GetMouseButton(0) && !isOverUI() && !isOccuped(childObject.transform.position)) {
+            // if()
                 tileObjects.Add(Instantiate(childObject, childObject.transform.position, Quaternion.identity).transform.position);
         }
 
-        if(Input.GetAxis("Mouse ScrollWheel") > 0f) childSRenderer.sprite = hotbar[textureIndex + 1 >= hotbar.Count ? textureIndex = 0 : ++textureIndex]; 
-        if(Input.GetAxis("Mouse ScrollWheel") < 0f) childSRenderer.sprite = hotbar[textureIndex - 1 < 0 ? textureIndex = hotbar.Count - 1 : --textureIndex]; 
+        if(Input.GetAxis("Mouse ScrollWheel") > 0f) {
+            childSRenderer.sprite = hotbar[textureIndex + 1 >= hotbar.Count ? textureIndex = 0 : ++textureIndex]; 
+            FindObjectOfType<SetHotbarMaterials>().setSelected(textureIndex);
+        }
+        else if(Input.GetAxis("Mouse ScrollWheel") < 0f) {
+            childSRenderer.sprite = hotbar[textureIndex - 1 < 0 ? textureIndex = hotbar.Count - 1 : --textureIndex]; 
+            FindObjectOfType<SetHotbarMaterials>().setSelected(textureIndex);
+        }
         // if(Input.GetAxis("Mouse ScrollWheel") > 0f) Debug.Log("Scroll"); 
 
         // Delete
@@ -57,6 +65,10 @@ public class Brush : MonoBehaviour
         return false;
     }
 
+    private bool isOverUI(){
+        return EventSystem.current.IsPointerOverGameObject();
+    }
+
     Vector3 GetSpacedPosition(Vector3 position) {
         return new Vector3((float) Mathf.Round(position.x / offset) * offset, (float) Mathf.Round(position.y / offset) * offset, position.z);
     }
@@ -68,6 +80,14 @@ public class Brush : MonoBehaviour
         mapPosition.z = -1;
 
         return mapPosition;
+    }
+    
+    public List<Sprite> GetHotbar() {
+        return hotbar;
+    }
+
+    public Sprite GetHotbarItem(int index) {
+        return hotbar[index];
     }
 
     public void ChangePalette(string materialName) {
