@@ -9,17 +9,19 @@ public class Brush : MonoBehaviour
     public Camera mainCamera;
 
     public GameObject childObject, borderObject;
-    private List<Vector3> tileObjects;
+    private List<GameObject> tileObjects;
     public List<Sprite> hotbar = new List<Sprite>();
     private SpriteRenderer childSRenderer;
 
     private Vector3 placeCoord;
     private float offset = 0.16f;
     public int textureIndex;
+        int deleteTilePosition;
+
 
     void Start() {
         childSRenderer = childObject.GetComponent<SpriteRenderer>();
-        tileObjects = new List<Vector3>();
+        tileObjects = new List<GameObject>();
         // hotbar = new List<Sprite>();
 
         textureIndex = 0;
@@ -35,10 +37,10 @@ public class Brush : MonoBehaviour
 
         // Place
         if(Input.GetMouseButton(0) && !isOverUI() && !isOccuped(childObject.transform.position)) {
-            // if()
-                tileObjects.Add(Instantiate(childObject, childObject.transform.position, Quaternion.identity).transform.position);
+            tileObjects.Add(Instantiate(childObject, childObject.transform.position, Quaternion.identity));
         }
 
+        // Hotbar
         if(Input.GetAxis("Mouse ScrollWheel") > 0f) {
             childSRenderer.sprite = hotbar[textureIndex + 1 >= hotbar.Count ? textureIndex = 0 : ++textureIndex]; 
             FindObjectOfType<SetHotbarMaterials>().setSelected(textureIndex);
@@ -50,15 +52,28 @@ public class Brush : MonoBehaviour
         // if(Input.GetAxis("Mouse ScrollWheel") > 0f) Debug.Log("Scroll"); 
 
         // Delete
-        // if(Input.GetMouseButtonDown(1)) Destroy(CreateGameObjectFromSprite(asset), GetWorldMousePosition(Input.mousePosition, mainCamera), Quaternion.identity);
+        deleteTilePosition = getTileObjectByPosition(childObject.transform.position);
+        if(Input.GetMouseButton(1) && deleteTilePosition != -1) {
+            Destroy(tileObjects[deleteTilePosition]);
+            tileObjects.RemoveAt(deleteTilePosition);
+        }
+    }
+
+    int getTileObjectByPosition(Vector3 position) {
+        for(int i = 0; i < tileObjects.Count; i++) {
+            if(GetSpacedPosition(tileObjects[i].transform.position) == GetSpacedPosition(position))
+                return i;
+        }
+
+        return -1;
     }
 
     bool isOccuped(Vector3 position) {
-        foreach (Vector3 tile in tileObjects) {
+        foreach (GameObject tile in tileObjects) {
             // if((System.Math.Round(position.x / offset) * offset) == tile.x 
             // && (System.Math.Round(position.y / offset) * offset) == tile.y)
             //     return true;
-            if(GetSpacedPosition(position) == GetSpacedPosition(tile))
+            if(GetSpacedPosition(position) == GetSpacedPosition(tile.transform.position))
                 return true;
         }
 

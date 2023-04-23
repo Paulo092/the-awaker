@@ -33,10 +33,12 @@ public class PlayerMovement : MonoBehaviour
 
         if(Input.GetAxis("Horizontal") != 0f || Input.GetAxis("Vertical") != 0f) {
             animator.SetBool("isWalking", true);
+            // this.GetComponent<AudioSource>().enabled = true;
             // animator.SetBool("isWalking", nowSpeed == walkSpeed ? true : false);
             // animator.SetBool("isRunning", nowSpeed == runSpeed ? true : false);
         } else {
             animator.SetBool("isWalking", false);
+            // this.GetComponent<AudioSource>().enabled = false;
             // animator.SetBool("isRunning", false);
         }
 
