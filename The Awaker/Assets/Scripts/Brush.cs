@@ -38,11 +38,11 @@ public class Brush : MonoBehaviour
 
         if(Input.GetAxis("Mouse ScrollWheel") < 0f) {
             brushSpriteRenderer.sprite = hotbar[hotbarSelectedItem + 1 >= hotbar.Count ? hotbarSelectedItem = 0 : ++hotbarSelectedItem]; 
-            FindObjectOfType<SetHotbarMaterials>().setSelected(hotbarSelectedItem);
+            FindObjectOfType<SetHotbarMaterials>().SetSelected(hotbarSelectedItem);
         }
         else if(Input.GetAxis("Mouse ScrollWheel") > 0f) {
             brushSpriteRenderer.sprite = hotbar[hotbarSelectedItem - 1 < 0 ? hotbarSelectedItem = hotbar.Count - 1 : --hotbarSelectedItem]; 
-            FindObjectOfType<SetHotbarMaterials>().setSelected(hotbarSelectedItem);
+            FindObjectOfType<SetHotbarMaterials>().SetSelected(hotbarSelectedItem);
         }
     }
 
@@ -95,5 +95,9 @@ public class Brush : MonoBehaviour
 
     public Sprite GetHotbarItem(int index) {
         return hotbar[index];
+    }
+
+    public int GetHotbarIndex() {
+        return hotbarSelectedItem;
     }
 }
