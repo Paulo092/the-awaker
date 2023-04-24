@@ -1,74 +1,76 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.EventSystems;
 using UnityEngine;
 
 public class Brush : MonoBehaviour
 {
-    public Sprite asset;
     public Camera mainCamera;
 
-    public GameObject childObject, borderObject;
-    private List<GameObject> tileObjects;
     public List<Sprite> hotbar = new List<Sprite>();
-    private SpriteRenderer childSRenderer;
+    public GameObject brushObject, brushBorderObject;
 
-    private Vector3 placeCoord;
-    private float offset = 0.16f;
-    public int textureIndex;
-        int deleteTilePosition;
+    [ReadOnly, SerializeField] private int hotbarSelectedItem;
 
+    private List<GameObject> placedObjects = new List<GameObject>();
+    private SpriteRenderer brushSpriteRenderer;
+    private int deleteTilePosition;
+    private sbyte materialLayer = 0, 
+                  propLayer = -1, 
+                  brushLayer = -2,
+                  brushBorderLayer = -3;
+
+    private static float offset = 0.16f;
 
     void Start() {
-        childSRenderer = childObject.GetComponent<SpriteRenderer>();
-        tileObjects = new List<GameObject>();
-        // hotbar = new List<Sprite>();
+        brushSpriteRenderer = brushObject.GetComponent<SpriteRenderer>();
 
-        textureIndex = 0;
-        childSRenderer.sprite = hotbar[textureIndex];
+        hotbarSelectedItem = 0;
+        brushSpriteRenderer.sprite = hotbar[hotbarSelectedItem];
     }
 
     void Update() {
 
-        childObject.transform.position = GetWorldMousePosition(Input.mousePosition, mainCamera);
-        borderObject.transform.position = new Vector3(childObject.transform.position.x, childObject.transform.position.y, -2);
+        brushObject.transform.position = Utils.SetLayer(GetSpacedPosition(Utils.GetWorldMousePosition(Input.mousePosition, mainCamera)), brushLayer);
+        brushBorderObject.transform.position = Utils.SetLayer(brushObject.transform.position, brushBorderLayer);
 
-        // childSRenderer.sprite = asset;
+        if(Input.GetMouseButton(0)) PlaceMaterial(brushObject.transform.position);
+        if(Input.GetMouseButton(1)) DeleteMaterial(brushObject.transform.position);
 
-        deleteTilePosition = getTileObjectByPosition(childObject.transform.position);
-
-        // Place ---
-        // if(Input.GetMouseButton(0) && !isOverUI() && !isOccuped(childObject)) {
-        if(Input.GetMouseButton(0) && !isOverUI()) {
-            if(deleteTilePosition != -1) {
-                Destroy(tileObjects[deleteTilePosition]);
-                tileObjects.RemoveAt(deleteTilePosition);
-            }
-
-            tileObjects.Add(Instantiate(childObject, childObject.transform.position, Quaternion.identity));
-        }
-
-        // Hotbar
         if(Input.GetAxis("Mouse ScrollWheel") < 0f) {
-            childSRenderer.sprite = hotbar[textureIndex + 1 >= hotbar.Count ? textureIndex = 0 : ++textureIndex]; 
-            FindObjectOfType<SetHotbarMaterials>().setSelected(textureIndex);
+            brushSpriteRenderer.sprite = hotbar[hotbarSelectedItem + 1 >= hotbar.Count ? hotbarSelectedItem = 0 : ++hotbarSelectedItem]; 
+            FindObjectOfType<SetHotbarMaterials>().setSelected(hotbarSelectedItem);
         }
         else if(Input.GetAxis("Mouse ScrollWheel") > 0f) {
-            childSRenderer.sprite = hotbar[textureIndex - 1 < 0 ? textureIndex = hotbar.Count - 1 : --textureIndex]; 
-            FindObjectOfType<SetHotbarMaterials>().setSelected(textureIndex);
-        }
-        // if(Input.GetAxis("Mouse ScrollWheel") > 0f) Debug.Log("Scroll"); 
-
-        // Delete
-        if(Input.GetMouseButton(1) && deleteTilePosition != -1) {
-            Destroy(tileObjects[deleteTilePosition]);
-            tileObjects.RemoveAt(deleteTilePosition);
+            brushSpriteRenderer.sprite = hotbar[hotbarSelectedItem - 1 < 0 ? hotbarSelectedItem = hotbar.Count - 1 : --hotbarSelectedItem]; 
+            FindObjectOfType<SetHotbarMaterials>().setSelected(hotbarSelectedItem);
         }
     }
 
-    int getTileObjectByPosition(Vector3 position) {
-        for(int i = 0; i < tileObjects.Count; i++) {
-            if(GetSpacedPosition(tileObjects[i].transform.position) == GetSpacedPosition(position))
+    private void DeleteMaterial(Vector3 position) {
+        deleteTilePosition = GetMaterialElementIndex(position);
+
+        if(deleteTilePosition != -1) {
+            Destroy(placedObjects[deleteTilePosition]);
+            placedObjects.RemoveAt(deleteTilePosition);
+        }
+    }
+
+    private void PlaceMaterial(Vector3 position) {
+        deleteTilePosition = GetMaterialElementIndex(position);
+
+        if(!Utils.isOverUI()) {
+            if(deleteTilePosition != -1) {
+                Destroy(placedObjects[deleteTilePosition]);
+                placedObjects.RemoveAt(deleteTilePosition);
+            }
+
+            placedObjects.Add(Instantiate(brushObject, Utils.SetLayer(position, materialLayer), Quaternion.identity));
+        }
+    }
+
+    int GetMaterialElementIndex(Vector3 position) {
+        for(int i = 0; i < placedObjects.Count; i++) {
+            if(GetSpacedPosition(placedObjects[i].transform.position) == GetSpacedPosition(position))
                 return i;
         }
 
@@ -76,52 +78,22 @@ public class Brush : MonoBehaviour
     }
 
     bool isOccuped(GameObject child) {
-        foreach (GameObject tile in tileObjects) {
-            // if((System.Math.Round(position.x / offset) * offset) == tile.x 
-            // && (System.Math.Round(position.y / offset) * offset) == tile.y)
-            //     return true;
+        foreach (GameObject tile in placedObjects)
             if(GetSpacedPosition(child.transform.position) == GetSpacedPosition(tile.transform.position))
                 return true;
-        }
 
         return false;
     }
 
-    private bool isOverUI(){
-        return EventSystem.current.IsPointerOverGameObject();
-    }
-
     Vector3 GetSpacedPosition(Vector3 position) {
-        return new Vector3((float) Mathf.Round(position.x / offset) * offset, (float) Mathf.Round(position.y / offset) * offset, position.z);
+        return new Vector3((float) Mathf.Round(position.x / offset) * offset, (float) Mathf.Round(position.y / offset) * offset, 0);
     }
-
-    private Vector3 GetWorldMousePosition(Vector3 screenPosition, Camera mainCamera) {
-        Vector3 mapPosition = mainCamera.ScreenToWorldPoint(screenPosition);
-        mapPosition.x = (float) Mathf.Round(mapPosition.x / offset) * offset;
-        mapPosition.y = (float) Mathf.Round(mapPosition.y / offset) * offset;
-        mapPosition.z = -1;
-
-        return mapPosition;
-    }
-    
+   
     public List<Sprite> GetHotbar() {
         return hotbar;
     }
 
     public Sprite GetHotbarItem(int index) {
         return hotbar[index];
-    }
-
-    public void ChangePalette(string materialName) {
-        // Object[] objects = UnityEditor.AssetDatabase.LoadAllAssetsAtPath("Assets/Sprites/Materials/Grass");
-        // Object[] objects = Resources.Load("Materials/Grass");
-        // var sprites = objects.Where(q => q is Sprite).Cast<Sprite>();
-        
-        // Debug.Log(childSRenderer.sprite);
-        // childSRenderer.sprite = Resources.Load("Materials/Grass_1") as Texture2D;
-        // Debug.Log(Resources.Load("Materials/Grass_0") as Texture2D);
-        // Debug.Log(Resources.Load<Sprite>(sprites[0]));
-        // Debug.Log(objects.Length);
-        // Debug.Log(Resources.Load<Sprite>("Materials/Grass"));
     }
 }
