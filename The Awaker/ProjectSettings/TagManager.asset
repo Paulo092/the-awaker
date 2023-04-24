@@ -4,7 +4,7 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - EnergyOrb
+  - Consumible
   layers:
   - Default
   - TransparentFX

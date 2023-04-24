@@ -10,7 +10,7 @@ public class CollectOrb : MonoBehaviour {
     }
 
     void OnCollisionStay2D(Collision2D collision) {
-        if(collision.gameObject.tag == "EnergyOrb") {
+        if(collision.gameObject.tag == "Consumible") {
             energyMetter += 1;
             Destroy(collision.gameObject);
         }

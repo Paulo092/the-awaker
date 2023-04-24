@@ -35,8 +35,16 @@ public class Brush : MonoBehaviour
 
         // childSRenderer.sprite = asset;
 
-        // Place
-        if(Input.GetMouseButton(0) && !isOverUI() && !isOccuped(childObject.transform.position)) {
+        deleteTilePosition = getTileObjectByPosition(childObject.transform.position);
+
+        // Place ---
+        // if(Input.GetMouseButton(0) && !isOverUI() && !isOccuped(childObject)) {
+        if(Input.GetMouseButton(0) && !isOverUI()) {
+            if(deleteTilePosition != -1) {
+                Destroy(tileObjects[deleteTilePosition]);
+                tileObjects.RemoveAt(deleteTilePosition);
+            }
+
             tileObjects.Add(Instantiate(childObject, childObject.transform.position, Quaternion.identity));
         }
 
@@ -52,7 +60,6 @@ public class Brush : MonoBehaviour
         // if(Input.GetAxis("Mouse ScrollWheel") > 0f) Debug.Log("Scroll"); 
 
         // Delete
-        deleteTilePosition = getTileObjectByPosition(childObject.transform.position);
         if(Input.GetMouseButton(1) && deleteTilePosition != -1) {
             Destroy(tileObjects[deleteTilePosition]);
             tileObjects.RemoveAt(deleteTilePosition);
@@ -68,12 +75,12 @@ public class Brush : MonoBehaviour
         return -1;
     }
 
-    bool isOccuped(Vector3 position) {
+    bool isOccuped(GameObject child) {
         foreach (GameObject tile in tileObjects) {
             // if((System.Math.Round(position.x / offset) * offset) == tile.x 
             // && (System.Math.Round(position.y / offset) * offset) == tile.y)
             //     return true;
-            if(GetSpacedPosition(position) == GetSpacedPosition(tile.transform.position))
+            if(GetSpacedPosition(child.transform.position) == GetSpacedPosition(tile.transform.position))
                 return true;
         }
 
