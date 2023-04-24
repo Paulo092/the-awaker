@@ -399,8 +399,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hotbarItems: []
-  test: {fileID: 0}
-  test2: {fileID: 1399160981, guid: d8cc224820ac65844a46bc91c2da2796, type: 3}
   selectedIndex: 0
 --- !u!1001 &213641754
 PrefabInstance:
@@ -496,6 +494,10 @@ PrefabInstance:
     - target: {fileID: 5987585079409493315, guid: c4e143d25701d6c48a6e76763980d6fd, type: 3}
       propertyPath: m_Name
       value: HotItem #3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5987585079409493315, guid: c4e143d25701d6c48a6e76763980d6fd, type: 3}
+      propertyPath: m_TagString
+      value: HotbarItem
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c4e143d25701d6c48a6e76763980d6fd, type: 3}
@@ -1034,6 +1036,10 @@ PrefabInstance:
     - target: {fileID: 5987585079409493315, guid: c4e143d25701d6c48a6e76763980d6fd, type: 3}
       propertyPath: m_Name
       value: HotItem #4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5987585079409493315, guid: c4e143d25701d6c48a6e76763980d6fd, type: 3}
+      propertyPath: m_TagString
+      value: HotbarItem
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c4e143d25701d6c48a6e76763980d6fd, type: 3}
@@ -1960,10 +1966,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56c2c4a0eb0317147b5d1878206a48d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  asset: {fileID: -1326008596, guid: d8cc224820ac65844a46bc91c2da2796, type: 3}
   mainCamera: {fileID: 519420031}
-  childObject: {fileID: 1476107933}
-  borderObject: {fileID: 518538264}
   hotbar:
   - {fileID: -18839467, guid: d8cc224820ac65844a46bc91c2da2796, type: 3}
   - {fileID: -1326008596, guid: d8cc224820ac65844a46bc91c2da2796, type: 3}
@@ -1971,7 +1974,9 @@ MonoBehaviour:
   - {fileID: -1903419489, guid: d8cc224820ac65844a46bc91c2da2796, type: 3}
   - {fileID: 1783468550, guid: d8cc224820ac65844a46bc91c2da2796, type: 3}
   - {fileID: 748927698, guid: f27816099c00ede4e9083c5c52713a01, type: 3}
-  textureIndex: 0
+  brushObject: {fileID: 1476107933}
+  brushBorderObject: {fileID: 518538264}
+  hotbarSelectedItem: 0
 --- !u!1 &909275826
 GameObject:
   m_ObjectHideFlags: 0
@@ -2460,6 +2465,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HotItem #2
       objectReference: {fileID: 0}
+    - target: {fileID: 5987585079409493315, guid: c4e143d25701d6c48a6e76763980d6fd, type: 3}
+      propertyPath: m_TagString
+      value: HotbarItem
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c4e143d25701d6c48a6e76763980d6fd, type: 3}
 --- !u!1 &1338260110
@@ -2798,6 +2807,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HotItem #6
       objectReference: {fileID: 0}
+    - target: {fileID: 5987585079409493315, guid: c4e143d25701d6c48a6e76763980d6fd, type: 3}
+      propertyPath: m_TagString
+      value: HotbarItem
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c4e143d25701d6c48a6e76763980d6fd, type: 3}
 --- !u!1 &1589099751
@@ -3030,6 +3043,10 @@ PrefabInstance:
     - target: {fileID: 5987585079409493315, guid: c4e143d25701d6c48a6e76763980d6fd, type: 3}
       propertyPath: m_Name
       value: HotItem #5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5987585079409493315, guid: c4e143d25701d6c48a6e76763980d6fd, type: 3}
+      propertyPath: m_TagString
+      value: HotbarItem
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c4e143d25701d6c48a6e76763980d6fd, type: 3}
@@ -3412,6 +3429,10 @@ PrefabInstance:
     - target: {fileID: 5987585079409493315, guid: c4e143d25701d6c48a6e76763980d6fd, type: 3}
       propertyPath: m_Name
       value: HotItem #1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5987585079409493315, guid: c4e143d25701d6c48a6e76763980d6fd, type: 3}
+      propertyPath: m_TagString
+      value: HotbarItem
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c4e143d25701d6c48a6e76763980d6fd, type: 3}
