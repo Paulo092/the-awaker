@@ -7,7 +7,7 @@ public class Brush : MonoBehaviour
     public Camera mainCamera;
 
     public List<Sprite> hotbar = new List<Sprite>();
-    public GameObject brushObject, brushBorderObject;
+    public GameObject brushObject, brushBorderObject, materialParent;
 
     [ReadOnly, SerializeField] private int hotbarSelectedItem;
 
@@ -15,7 +15,7 @@ public class Brush : MonoBehaviour
     private SpriteRenderer brushSpriteRenderer;
     private int deleteTilePosition;
     private sbyte materialLayer = 0, 
-                  propLayer = -1, 
+                //   propLayer = -1, 
                   brushLayer = -2,
                   brushBorderLayer = -3;
 
@@ -65,6 +65,7 @@ public class Brush : MonoBehaviour
             }
 
             placedObjects.Add(Instantiate(brushObject, Utils.SetLayer(position, materialLayer), Quaternion.identity));
+            placedObjects[placedObjects.Count - 1].transform.SetParent(materialParent.transform); 
         }
     }
 
