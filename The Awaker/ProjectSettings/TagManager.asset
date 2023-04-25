@@ -7,6 +7,7 @@ TagManager:
   - Consumible
   - EnergyOrb
   - HotbarItem
+  - PlacedObject
   layers:
   - Default
   - TransparentFX

@@ -66,6 +66,7 @@ public class Brush : MonoBehaviour
 
             placedObjects.Add(Instantiate(brushObject, Utils.SetLayer(position, materialLayer), Quaternion.identity));
             placedObjects[placedObjects.Count - 1].transform.SetParent(materialParent.transform); 
+            placedObjects[placedObjects.Count - 1].tag = "PlacedObject"; 
         }
     }
 
@@ -96,5 +97,9 @@ public class Brush : MonoBehaviour
 
     public int GetHotbarIndex() {
         return hotbarSelectedItem;
+    }
+
+    public List<GameObject> GetPlacedObjects() {
+        return placedObjects;
     }
 }
