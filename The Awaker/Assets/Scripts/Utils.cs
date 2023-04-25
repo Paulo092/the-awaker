@@ -18,6 +18,9 @@ public class ReadOnlyDrawer : PropertyDrawer {
 }
 
 public class Utils : MonoBehaviour {    
+
+    public static float offset = 0.16f;
+
     public static Vector3 SetLayer(Vector3 coordinate, int newLayer) {
         return new Vector3(coordinate.x, coordinate.y, newLayer);
     }
@@ -28,5 +31,9 @@ public class Utils : MonoBehaviour {
 
     public static bool isOverUI(){
         return EventSystem.current.IsPointerOverGameObject();
+    }
+
+    public static Vector3 GetSpacedPosition(Vector3 position) {
+        return new Vector3((float) Mathf.Round(position.x / offset) * offset, (float) Mathf.Round(position.y / offset) * offset, 0);
     }
 }

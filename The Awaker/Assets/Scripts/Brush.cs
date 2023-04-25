@@ -19,7 +19,7 @@ public class Brush : MonoBehaviour
                   brushLayer = -2,
                   brushBorderLayer = -3;
 
-    private static float offset = 0.16f;
+    // private static float offset = 0.16f;
 
     void Start() {
         brushSpriteRenderer = brushObject.GetComponent<SpriteRenderer>();
@@ -30,7 +30,7 @@ public class Brush : MonoBehaviour
 
     void Update() {
 
-        brushObject.transform.position = Utils.SetLayer(GetSpacedPosition(Utils.GetWorldMousePosition(Input.mousePosition, mainCamera)), brushLayer);
+        brushObject.transform.position = Utils.SetLayer(Utils.GetSpacedPosition(Utils.GetWorldMousePosition(Input.mousePosition, mainCamera)), brushLayer);
         brushBorderObject.transform.position = Utils.SetLayer(brushObject.transform.position, brushBorderLayer);
 
         if(Input.GetMouseButton(0)) PlaceMaterial(brushObject.transform.position);
@@ -71,7 +71,7 @@ public class Brush : MonoBehaviour
 
     int GetMaterialElementIndex(Vector3 position) {
         for(int i = 0; i < placedObjects.Count; i++) {
-            if(GetSpacedPosition(placedObjects[i].transform.position) == GetSpacedPosition(position))
+            if(Utils.GetSpacedPosition(placedObjects[i].transform.position) == Utils.GetSpacedPosition(position))
                 return i;
         }
 
@@ -80,14 +80,10 @@ public class Brush : MonoBehaviour
 
     bool isOccuped(GameObject child) {
         foreach (GameObject tile in placedObjects)
-            if(GetSpacedPosition(child.transform.position) == GetSpacedPosition(tile.transform.position))
+            if(Utils.GetSpacedPosition(child.transform.position) == Utils.GetSpacedPosition(tile.transform.position))
                 return true;
 
         return false;
-    }
-
-    Vector3 GetSpacedPosition(Vector3 position) {
-        return new Vector3((float) Mathf.Round(position.x / offset) * offset, (float) Mathf.Round(position.y / offset) * offset, 0);
     }
    
     public List<Sprite> GetHotbar() {
