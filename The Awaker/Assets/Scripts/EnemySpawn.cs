@@ -3,30 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySpawn : MonoBehaviour {
-    public int firstSpawnIn = 10;
+    public int spawnTime = 10;
     public GameObject enemy;
+    public bool isEnemySpawned = false;
 
     void Start() {
-        InvokeRepeating("ConsumeTheWorld", firstSpawnIn, firstSpawnIn);
+        // InvokeRepeating("ConsumeTheWorld", spawnTime, spawnTime);
+        Invoke("TrySpawnEnemy", spawnTime);
     }
+
+    private void TrySpawnEnemy() {
+        // Debug.Log("Trying to spawn enemy");
+        bool conditions = FindObjectOfType<TileScript>().GetTilesPlaced() > 1 // Min of tiles placed to be able to spawn
+                       && !isEnemySpawned;                                    // Enemy exists in game
+
+        if(conditions) {
+            Instantiate(enemy, Utils.SetLayer(FindObjectOfType<TileScript>().GetRandomCellGlobalPosition(), Utils.L_ENEMY), Quaternion.identity);
+            isEnemySpawned = true;
+        }
+
+        Invoke("TrySpawnEnemy", spawnTime);
+    } 
 
     void Update() {
-        
-    }
+        Debug.Log(isEnemySpawned);
 
-    private bool IsGoodToGO() {
-        if(FindObjectOfType<Brush>().GetPlacedObjects().Count > 20) {
-            return true;
-        }
-
-        return false;
-    }
-
-    private void ConsumeTheWorld() {
-        enemy.SetActive(true);
-        if(IsGoodToGO()) {
-            enemy.transform.position = FindObjectOfType<Brush>().GetPlacedObjects()[Random.Range(0, FindObjectOfType<Brush>().GetPlacedObjects().Count - 1)].transform.position;
-        }
-        else Debug.Log("Bad");
-    }
+     }
 }

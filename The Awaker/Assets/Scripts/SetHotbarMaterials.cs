@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Tilemaps;
 
 public class SetHotbarMaterials : MonoBehaviour {
 
@@ -9,13 +10,13 @@ public class SetHotbarMaterials : MonoBehaviour {
     [ReadOnly, SerializeField] private int selectedIndex;
     
     void Start() {
-        List<Sprite> items = FindObjectOfType<Brush>().GetHotbar();
-        selectedIndex = FindObjectOfType<Brush>().GetHotbarIndex();
+        List<Tile> items = FindObjectOfType<TileScript>().GetHotbar();
+        selectedIndex = FindObjectOfType<TileScript>().GetHotbarIndex();
 
         foreach (Transform child in transform) {
             if(child.tag == "HotbarItem") {
                 hotbarItems.Add(child);
-                hotbarItems[hotbarItems.Count - 1].Find("ImageMaterial").gameObject.GetComponent<Image>().sprite = items[hotbarItems.Count - 1];
+                hotbarItems[hotbarItems.Count - 1].Find("ImageMaterial").gameObject.GetComponent<Image>().sprite = items[hotbarItems.Count - 1].sprite;
             } 
         }
 
@@ -30,6 +31,10 @@ public class SetHotbarMaterials : MonoBehaviour {
         hotbarItems[selectedIndex].transform.localScale = hotbarItems[selectedIndex].transform.localScale / 1.3f;
         hotbarItems[index].transform.localScale = hotbarItems[selectedIndex].transform.localScale * 1.3f;
         selectedIndex = index;
+    }
+
+    public void ToggleMaterials(GameObject panel) {
+        panel.SetActive(!panel.activeSelf);
     }
 
 }

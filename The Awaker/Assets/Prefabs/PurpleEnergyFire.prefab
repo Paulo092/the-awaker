@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3652222131088153}
   - component: {fileID: 76789617439538153}
   - component: {fileID: -3031563451037304360}
-  - component: {fileID: 6408864549009592324}
+  - component: {fileID: 3282194817414869830}
   m_Layer: 0
   m_Name: PurpleEnergyFire
   m_TagString: Consumible
@@ -155,7 +155,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.10221332, y: 0.082043424}
   m_EdgeRadius: 0
---- !u!82 &6408864549009592324
+--- !u!82 &3282194817414869830
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -167,14 +167,14 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 13351f60fb4387f41b417de96931e009, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.5
-  m_Pitch: 0
+  m_Volume: 0.25
+  m_Pitch: 1
   Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 5
+  DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
@@ -226,7 +226,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0

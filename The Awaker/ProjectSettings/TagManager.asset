@@ -8,6 +8,8 @@ TagManager:
   - EnergyOrb
   - HotbarItem
   - PlacedObject
+  - KillCollider
+  - Enemy
   layers:
   - Default
   - TransparentFX

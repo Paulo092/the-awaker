@@ -7,7 +7,7 @@ public class Brush : MonoBehaviour
     public Camera mainCamera;
 
     public List<Sprite> hotbar = new List<Sprite>();
-    public GameObject brushObject, brushBorderObject, materialParent;
+    public GameObject brushObject, brushBorderObject, materialParent, materialPrefab;
 
     [ReadOnly, SerializeField] private int hotbarSelectedItem;
 
@@ -16,8 +16,10 @@ public class Brush : MonoBehaviour
     private int deleteTilePosition;
     private sbyte materialLayer = 0, 
                 //   propLayer = -1, 
-                  brushLayer = -2,
-                  brushBorderLayer = -3;
+                  brushLayer = -2;
+                //   brushBorderLayer = -3;
+
+    [ReadOnly, SerializeField] private bool isTouchingPlacedObject = false;
 
     // private static float offset = 0.16f;
 
@@ -29,9 +31,11 @@ public class Brush : MonoBehaviour
     }
 
     void Update() {
+        this.gameObject.transform.position = Utils.SetLayer(Utils.GetSpacedPosition(Utils.GetWorldMousePosition(Input.mousePosition, mainCamera)), brushLayer);
+        // brushObject.transform.position = Utils.SetLayer(Utils.GetSpacedPosition(Utils.GetWorldMousePosition(Input.mousePosition, mainCamera)), brushLayer);
+        // brushBorderObject.transform.position = Utils.SetLayer(brushObject.transform.position, brushBorderLayer);
 
-        brushObject.transform.position = Utils.SetLayer(Utils.GetSpacedPosition(Utils.GetWorldMousePosition(Input.mousePosition, mainCamera)), brushLayer);
-        brushBorderObject.transform.position = Utils.SetLayer(brushObject.transform.position, brushBorderLayer);
+        Debug.Log(isTouchingPlacedObject);
 
         if(Input.GetMouseButton(0)) PlaceMaterial(brushObject.transform.position);
         if(Input.GetMouseButton(1)) DeleteMaterial(brushObject.transform.position);
@@ -44,6 +48,12 @@ public class Brush : MonoBehaviour
             brushSpriteRenderer.sprite = hotbar[hotbarSelectedItem - 1 < 0 ? hotbarSelectedItem = hotbar.Count - 1 : --hotbarSelectedItem]; 
             FindObjectOfType<SetHotbarMaterials>().SetSelected(hotbarSelectedItem);
         }
+    }
+
+    private GameObject NewMaterialObject() {
+        GameObject mat = materialPrefab;
+        mat.GetComponent<SpriteRenderer>().sprite = hotbar[hotbarSelectedItem];
+        return mat;
     }
 
     private void DeleteMaterial(Vector3 position) {
@@ -64,7 +74,7 @@ public class Brush : MonoBehaviour
                 placedObjects.RemoveAt(deleteTilePosition);
             }
 
-            placedObjects.Add(Instantiate(brushObject, Utils.SetLayer(position, materialLayer), Quaternion.identity));
+            placedObjects.Add(Instantiate(NewMaterialObject(), Utils.SetLayer(position, materialLayer), Quaternion.identity));
             placedObjects[placedObjects.Count - 1].transform.SetParent(materialParent.transform); 
             placedObjects[placedObjects.Count - 1].tag = "PlacedObject"; 
         }
@@ -101,5 +111,9 @@ public class Brush : MonoBehaviour
 
     public List<GameObject> GetPlacedObjects() {
         return placedObjects;
+    }
+
+    void OnCollisionStay2D(Collision2D collision) {
+        isTouchingPlacedObject = collision.gameObject.tag == "PlacedObject" ? true : false;
     }
 }
