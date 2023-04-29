@@ -35,10 +35,16 @@ public class TileScript : MonoBehaviour
         Vector3Int currentCell = highlightMap.WorldToCell(Utils.GetWorldMousePosition(Input.mousePosition, mainCamera));
 
         if(Input.GetMouseButton(0) && !Utils.isOverUI()) {
-            highlightMap.SetTile(currentCell, hotbar[hotbarSelectedItem]);
-            tilesPlaced++;
+            if(FindObjectOfType<EnergyManager>().GetEnergyAmount() > 0) {
+                if(highlightMap.GetTile(currentCell) == null)
+                    FindObjectOfType<EnergyManager>().DecrementEnergy(1);
+                highlightMap.SetTile(currentCell, hotbar[hotbarSelectedItem]);
+                tilesPlaced++;
+            }
         } 
         else if(Input.GetMouseButton(1)) {
+            if(highlightMap.GetTile(currentCell) != null)
+                FindObjectOfType<EnergyManager>().IncrementEnergy(1);
             highlightMap.SetTile(currentCell, null);
             tilesPlaced--;
         }

@@ -14,8 +14,8 @@ public class EnemySpawn : MonoBehaviour {
 
     private void TrySpawnEnemy() {
         // Debug.Log("Trying to spawn enemy");
-        bool conditions = FindObjectOfType<TileScript>().GetTilesPlaced() > 1 // Min of tiles placed to be able to spawn
-                       && !isEnemySpawned;                                    // Enemy exists in game
+        bool conditions = FindObjectOfType<TileScript>().GetTilesPlaced() > Utils.E_MIN_TILE // Min of tiles placed to be able to spawn
+                       && !isEnemySpawned;                                             // Enemy exists in game
 
         if(conditions) {
             Instantiate(enemy, Utils.SetLayer(FindObjectOfType<TileScript>().GetRandomCellGlobalPosition(), Utils.L_ENEMY), Quaternion.identity);

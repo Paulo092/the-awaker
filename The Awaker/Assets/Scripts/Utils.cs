@@ -20,7 +20,9 @@ public class ReadOnlyDrawer : PropertyDrawer {
 public class Utils : MonoBehaviour {    
 
     public static float offset = 0.16f;
-    public static int L_ENEMY = -3;
+    public static int L_ENEMY = -3,
+                      E_MIN_TILE = 100;
+
 
     public static Vector3 SetLayer(Vector3 coordinate, int newLayer) {
         return new Vector3(coordinate.x, coordinate.y, newLayer);

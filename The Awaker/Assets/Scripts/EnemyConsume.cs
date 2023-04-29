@@ -50,14 +50,13 @@ public class EnemyConsume : MonoBehaviour
         // if(collision.gameObject.tag == "PlacedObject" && inConsumeMode) Destroy(collision.gameObject);
         if(collision.gameObject.tag == "PlacedObject" && inConsumeMode) {
             foreach (ContactPoint2D contact in collision.contacts) {
-                FindObjectOfType<TileScript>().DestroyTileAt(new Vector3(contact.point.x, contact.point.y));
-                
+                if(FindObjectOfType<TileScript>().GetTilesPlaced() > 0) {
+                    FindObjectOfType<TileScript>().DestroyTileAt(new Vector3(contact.point.x, contact.point.y));
+                } else {
+                    Destroy(this);
+                }
             }
         }
-
-        // if(collision.gameObject.tag == "KillCollider") {
-        //     Debug.Log("kill collider");
-        // }
     }
 
     void OnCollisionEnter2D(Collision2D collision) {

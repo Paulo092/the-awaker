@@ -49,4 +49,6 @@ public class PlayerMovement : MonoBehaviour
             this.transform.position.y + Input.GetAxis("Vertical") * nowSpeed, 
             this.transform.position.z);
     }
+
+
 }
