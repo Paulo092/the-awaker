@@ -12,6 +12,10 @@ public class TileScript : MonoBehaviour
     [ReadOnly, SerializeField] private int hotbarSelectedItem;
     public List<Vector3> availablePlaces;
     public int tilesPlaced;
+    private bool isDrawnable = true;
+
+    public GameObject prefabA;
+    public Tile ptile;
 
     public TileBase[] tileb;
     public TileBase tile;
@@ -23,6 +27,7 @@ public class TileScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         // GetRandomCellGlobalPosition();
         tileb = highlightMap.GetTilesBlock(highlightMap.cellBounds);
         // tile = tileb[0] != null ? tileb[0] : null;
@@ -34,7 +39,9 @@ public class TileScript : MonoBehaviour
 
         Vector3Int currentCell = highlightMap.WorldToCell(Utils.GetWorldMousePosition(Input.mousePosition, mainCamera));
 
-        if(Input.GetMouseButton(0) && !Utils.isOverUI()) {
+        if(Input.GetMouseButton(0) && !Utils.isOverUI() && isDrawnable) {
+            // ptile.gameObject = prefabA;
+            // highlightMap.SetTile(currentCell, ptile);
             if(FindObjectOfType<EnergyManager>().GetEnergyAmount() > 0) {
                 if(highlightMap.GetTile(currentCell) == null)
                     FindObjectOfType<EnergyManager>().DecrementEnergy(1);
@@ -42,21 +49,25 @@ public class TileScript : MonoBehaviour
                 tilesPlaced++;
             }
         } 
-        else if(Input.GetMouseButton(1)) {
+        else if(Input.GetMouseButton(1) && isDrawnable) {
             if(highlightMap.GetTile(currentCell) != null)
                 FindObjectOfType<EnergyManager>().IncrementEnergy(1);
             highlightMap.SetTile(currentCell, null);
             tilesPlaced--;
         }
 
-        if(Input.GetAxis("Mouse ScrollWheel") < 0f) {
+        if(Input.GetAxis("Mouse ScrollWheel") < 0f && isDrawnable) {
             hotbarSelectedItem = (hotbarSelectedItem + 1) % hotbar.Count; 
             FindObjectOfType<SetHotbarMaterials>().SetSelected(hotbarSelectedItem);
         }
-        else if(Input.GetAxis("Mouse ScrollWheel") > 0f) {
+        else if(Input.GetAxis("Mouse ScrollWheel") > 0f && isDrawnable) {
             hotbarSelectedItem = hotbarSelectedItem - 1 < 0 ? hotbarSelectedItem = hotbar.Count - 1 : --hotbarSelectedItem; 
             FindObjectOfType<SetHotbarMaterials>().SetSelected(hotbarSelectedItem);
         }
+    }
+
+    public void setDrawnable(bool value) {
+        isDrawnable = value;
     }
 
     public List<Tile> GetHotbar() {
