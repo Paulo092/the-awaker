@@ -13,7 +13,7 @@ public class EnemySpawn : MonoBehaviour {
     }
 
     private void TrySpawnEnemy() {
-        // Debug.Log("Trying to spawn enemy");
+        Debug.Log("Trying to spawn enemy");
         bool conditions = FindObjectOfType<TileScript>().GetTilesPlaced() > Utils.E_MIN_TILE // Min of tiles placed to be able to spawn
                        && !isEnemySpawned;                                             // Enemy exists in game
 
@@ -26,7 +26,7 @@ public class EnemySpawn : MonoBehaviour {
     } 
 
     void Update() {
-        Debug.Log(isEnemySpawned);
+        // Debug.Log(isEnemySpawned);
 
      }
 }

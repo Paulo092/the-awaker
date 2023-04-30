@@ -21,7 +21,7 @@ public class Utils : MonoBehaviour {
 
     public static float offset = 0.16f;
     public static int L_ENEMY = -3,
-                      E_MIN_TILE = 100;
+                      E_MIN_TILE = 1;
 
 
     public static Vector3 SetLayer(Vector3 coordinate, int newLayer) {

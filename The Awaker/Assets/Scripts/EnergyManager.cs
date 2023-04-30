@@ -7,6 +7,7 @@ public class EnergyManager : MonoBehaviour
 {
     public int energy;
     public TMP_Text energyMetterTMP;
+    public AudioClip collectSound;
 
     // Start is called before the first frame update
     void Start() {
@@ -33,6 +34,7 @@ public class EnergyManager : MonoBehaviour
     void OnCollisionStay2D(Collision2D collision) {
         if(collision.gameObject.tag == "Consumible") {
             IncrementEnergy(10 + (int) (10 * (collision.gameObject.transform.localScale.x - 1)));
+            SoundManager.Instance.PlaySound(collectSound);
             Destroy(collision.gameObject);
         }
     }
