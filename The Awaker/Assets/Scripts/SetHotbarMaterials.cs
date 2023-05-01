@@ -13,6 +13,7 @@ public class SetHotbarMaterials : MonoBehaviour {
         List<Tile> items = FindObjectOfType<TileScript>().GetHotbar();
         selectedIndex = FindObjectOfType<TileScript>().GetHotbarIndex();
 
+        Debug.Log(items.Count);
         foreach (Transform child in transform) {
             if(child.tag == "HotbarItem") {
                 hotbarItems.Add(child);

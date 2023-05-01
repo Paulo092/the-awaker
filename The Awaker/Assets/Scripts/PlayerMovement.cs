@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Tilemaps;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -8,12 +9,15 @@ public class PlayerMovement : MonoBehaviour
 
     public float nowSpeed;
     private bool facingRight;
+    public Tilemap tilemap;
 
     public const float walkSpeed = 0.02f, runSpeed = 0.03f;
+    private Rigidbody2D rb2d;
 
     void Start() {
         nowSpeed = 0f;
         facingRight = true;
+        rb2d = this.GetComponent<Rigidbody2D>();
     }
 
     private void Flip(float direction) {
@@ -44,11 +48,31 @@ public class PlayerMovement : MonoBehaviour
 
         Flip(Input.GetAxis("Horizontal"));
 
-        this.transform.position = new Vector3(
-            this.transform.position.x + Input.GetAxis("Horizontal") * nowSpeed, 
-            this.transform.position.y + Input.GetAxis("Vertical") * nowSpeed, 
-            this.transform.position.z);
+        // rb2d.AddForce(new Vector2(Input.GetAxis("Horizontal") * 0.5f, Input.GetAxis("Vertical") * 0.5f ));
+
+        rb2d.MovePosition(
+            (Vector2) this.transform.position + new Vector2(Input.GetAxis("Horizontal") * nowSpeed, Input.GetAxis("Vertical") * nowSpeed )
+        );
+
+        // Debug.Log("ZV: " + gridBase.CellToWorld(gridBase.WorldToCell(this.transform.position)).y);
+
+        // Vector3 cellPos = 
+
+        // Debug.Log("ZV: " + GetComponent<Renderer>().bounds.center + "Tile: " + tilemap.WorldToCell(GetComponent<Renderer>().bounds.center));
+
+        // this.transform.position = new Vector3(transform.position.x, transform.position.y, tilemap.CellToWorld(tilemap.WorldToCell(this.transform.position)).y);
+        this.transform.position = new Vector3(transform.position.x, transform.position.y, tilemap.CellToWorld(tilemap.WorldToCell(this.transform.position)).y);
+        // tilemap.transform.position = new Vector3(tilemap.transform.position.x, tilemap.transform.position.y, this.transform.position.z + 1);
+        // rb2d.MovePosition(
+
+        //     new Vector2(rb2d.position.x + Input.GetAxis("Horizontal") * 2, 
+        //     rb2d.position.y + Input.GetAxis("Vertical") * 2)
+
+        //      * Time.fixedDeltaTime);
+
+        // this.transform.position = new Vector3(
+        //     this.transform.position.x + Input.GetAxis("Horizontal") * nowSpeed, 
+        //     this.transform.position.y + Input.GetAxis("Vertical") * nowSpeed, 
+        //     this.transform.position.z);
     }
-
-
 }

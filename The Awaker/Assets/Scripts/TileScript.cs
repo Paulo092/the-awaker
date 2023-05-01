@@ -13,6 +13,7 @@ public class TileScript : MonoBehaviour
     public List<Vector3> availablePlaces;
     public int tilesPlaced;
     private bool isDrawnable = true;
+    private float lowestPoint;
 
     public GameObject prefabA;
     public Tile ptile;
@@ -21,8 +22,7 @@ public class TileScript : MonoBehaviour
     public TileBase tile;
 
     // Start is called before the first frame update
-    void Start() {
-    }
+    void Start() { }
 
     // Update is called once per frame
     void Update()
@@ -47,8 +47,24 @@ public class TileScript : MonoBehaviour
                     FindObjectOfType<EnergyManager>().DecrementEnergy(1);
                 highlightMap.SetTile(currentCell, hotbar[hotbarSelectedItem]);
                 tilesPlaced++;
+                
+                // if(lowestPoint != null) if(currentCell.y < lowestPoint) lowestPoint = highlightMap.CellToWorld(currentCell);
+                // else lowestPoint = highlightMap.CellToWorld(currentCell);
+
+                // highlightMap.SetTileFlags(currentCell, TileFlags.None);
+
+                // tileGameObject.transform.position = new Vector3(tileGameObject.transform.position.x, tileGameObject.transform.position.y, tileGameObject.transform.position.y);
+
+                // Vector3 cellWorldPosition = highlightMap.CellToWorld(currentCell);
+                // Debug.Log(">>> " + cellWorldPosition.y);
+                // Matrix4x4 matrix = Matrix4x4.TRS(new Vector3(1, 1, this.transform.position.y), Quaternion.Euler(0f, 0f, 0f), Vector3.one);
+                // Debug.Log(">>>> " + currentCell);
+                // highlightMap.SetTransformMatrix(currentCell, Matrix4x4.Translate(new Vector3(0, 0, highlightMap.CellToWorld(currentCell.y))));
+                // Debug.Log(">>> " + highlightMap.GetTransformMatrix(currentCell));
+
             }
         } 
+
         else if(Input.GetMouseButton(1) && isDrawnable) {
             if(highlightMap.GetTile(currentCell) != null)
                 FindObjectOfType<EnergyManager>().IncrementEnergy(1);
@@ -86,6 +102,14 @@ public class TileScript : MonoBehaviour
         return tilesPlaced;
     }
 
+    public Tilemap GetTilemap() {
+        return GetComponent<Tilemap>();
+    }
+
+    public float GetLayer(Vector3 position) {
+        return highlightMap.CellToWorld(highlightMap.WorldToCell(position)).y;
+    }
+
     public Vector3 GetRandomCellGlobalPosition() {
         // tileMap = transform.GetComponentInParent<Tilemap>();
         availablePlaces = new List<Vector3>();
@@ -107,14 +131,21 @@ public class TileScript : MonoBehaviour
         return availablePlaces[Random.Range(0, availablePlaces.Count - 1)];
     }
 
-    public void DestroyTileAt(Vector3 coordinate) {
+    public void DestroyTileAt(Vector2 coordinate, int size) {
         Vector3Int circleCenter = highlightMap.WorldToCell(coordinate);
 
-        highlightMap.SetTile(circleCenter, null);
-        highlightMap.SetTile(circleCenter + new Vector3Int(1, 0), null);
-        highlightMap.SetTile(circleCenter + new Vector3Int(0, 1), null);
-        highlightMap.SetTile(circleCenter + new Vector3Int(-1, 0), null);
-        highlightMap.SetTile(circleCenter + new Vector3Int(0, -1), null);
+        for (int i = -size; i <= size; i++) {
+            for (int j = -size; j <= size; j++) {
+                if(!(Mathf.Abs(i) == size && Mathf.Abs(j) == size))
+                    highlightMap.SetTile(circleCenter + new Vector3Int(i, j), null);
+            }
+        }
+
+        // highlightMap.SetTile(circleCenter, null);
+        // highlightMap.SetTile(circleCenter + new Vector3Int(1, 0), null);
+        // highlightMap.SetTile(circleCenter + new Vector3Int(0, 1), null);
+        // highlightMap.SetTile(circleCenter + new Vector3Int(-1, 0), null);
+        // highlightMap.SetTile(circleCenter + new Vector3Int(0, -1), null);
     }
 
     public void DebugRTile() {

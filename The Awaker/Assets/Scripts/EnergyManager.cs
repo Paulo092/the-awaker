@@ -5,13 +5,12 @@ using TMPro;
 
 public class EnergyManager : MonoBehaviour
 {
-    public int energy;
+    public int energy = 0;
     public TMP_Text energyMetterTMP;
     public AudioClip collectSound;
 
     // Start is called before the first frame update
     void Start() {
-        energy = 0;
     }
 
     // Update is called once per frame
@@ -31,7 +30,7 @@ public class EnergyManager : MonoBehaviour
         return energy;
     }
 
-    void OnCollisionStay2D(Collision2D collision) {
+    void OnTriggerStay2D(Collider2D collision) {
         if(collision.gameObject.tag == "Consumible") {
             IncrementEnergy(10 + (int) (10 * (collision.gameObject.transform.localScale.x - 1)));
             SoundManager.Instance.PlaySound(collectSound);

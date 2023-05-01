@@ -19,7 +19,7 @@ public class OrbSpawn : MonoBehaviour
         instance = Instantiate(orbPrefab, new Vector3(
             Random.Range(player.transform.position.x - spawnRadius * Utils.offset, player.transform.position.x + spawnRadius * Utils.offset),
             Random.Range(player.transform.position.y - spawnRadius * Utils.offset, player.transform.position.y + spawnRadius * Utils.offset),
-            this.transform.position.z), Quaternion.identity);
+            FindObjectOfType<TileScript>().GetLayer(this.transform.position)), Quaternion.identity);
         instance.transform.SetParent(objectParent.transform);
         instance.transform.localScale = new Vector3(power, power, 1);
     }

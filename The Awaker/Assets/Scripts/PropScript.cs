@@ -23,7 +23,9 @@ public class PropScript : MonoBehaviour
     private bool isDrawnable = false;
 
     // Start is called before the first frame update
-    void Start() { }
+    void Start() {
+        ptile = ScriptableObject.CreateInstance<Tile>();
+    }
 
     // Update is called once per frame
     void Update()
@@ -40,15 +42,49 @@ public class PropScript : MonoBehaviour
         Vector3Int currentCell = highlightMap.WorldToCell(Utils.GetWorldMousePosition(Input.mousePosition, mainCamera));
 
         if(Input.GetMouseButton(0) && !Utils.isOverUI() && canPlace && isDrawnable) {
-            if(FindObjectOfType<EnergyManager>().GetEnergyAmount() > 0) {
+
+            if(FindObjectOfType<EnergyManager>().GetEnergyAmount() > 0 && !highlightMap.HasTile(currentCell)) {
                 if(highlightMap.GetTile(currentCell) == null)
                     FindObjectOfType<EnergyManager>().DecrementEnergy(1);
 
-                ptile.gameObject = hotbar[0];
+                highlightMap.RemoveTileFlags(currentCell, TileFlags.LockTransform);
+                // Debug.Log("Tile Flags: " + highlightMap.GetTileFlags(currentCell));
+                // highlightMap.RemoveTileFlags(currentCell, TileFlags.LockAll);
+                // Debug.Log("Tile bf TM: " + highlightMap.GetTransformMatrix(currentCell));
+                // Matrix4x4 matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(90f, 90f, 90f), new Vector3(10f, 10f, 10f));
+                // highlightMap.SetTransformMatrix(currentCell, matrix);
+                // Debug.Log("Tile TM: " + highlightMap.GetTransformMatrix(currentCell));
+                
+                ptile.gameObject = hotbar[hotbarSelectedItem];
                 highlightMap.SetTile(currentCell, ptile);
+
+                // Debug.Log("Tile: " + currentCell);
+                // Debug.Log("Tile bf TM: " + highlightMap.GetTransformMatrix(currentCell));
+                highlightMap.SetTileFlags(currentCell, TileFlags.None);
+                // highlightMap.SetTransformMatrix(currentCell, Matrix4x4.Scale(new Vector3(99, 99, 1)));
+                // highlightMap.SetTransformMatrix(currentCell, Matrix4x4.TRS(new Vector3(0, 0, -2), Quaternion.Euler(0f, 0f, 0f), new Vector3(10f, 10f, 10f)));
+                
+                // Debug.Log("Tile GO: " + highlightMap.GetTile(currentCell));
+                // Debug.Log("Tile GO: " + highlightMap.GetInstantiatedObject(currentCell));
+                GameObject tileGameObject = highlightMap.GetInstantiatedObject(currentCell);
+                tileGameObject.transform.position = new Vector3(tileGameObject.transform.position.x, tileGameObject.transform.position.y, tileGameObject.transform.position.y);
+                Debug.Log("prop: " + tileGameObject.transform.position);
+
+                // highlightMap.GetInstantiatedObject(currentCell).transform.position = currentCell.y;
+                // Debug.Log("Tile TM: " + highlightMap.GetTransformMatrix(currentCell));
+                // highlightMap.RefreshTile(currentCell);
+                
+
                 // highlightMap.SetTile(currentCell, hotbar[hotbarSelectedItem]);
                 tilesPlaced++;
             }
+
+            // Debug.Log(
+            //     highlightMap.GetTileFlags(currentCell)
+
+            // );
+
+ 
         } 
         else if(Input.GetMouseButton(1) && isDrawnable) {
             if(highlightMap.GetTile(currentCell) != null)
