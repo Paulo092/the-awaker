@@ -16,10 +16,13 @@ public class OrbSpawn : MonoBehaviour
     void SpawnOrb() {
         power = Random.Range(1.0f, 1.5f);
 
-        instance = Instantiate(orbPrefab, new Vector3(
+        Vector3 instancePosition = new Vector3(
             Random.Range(player.transform.position.x - spawnRadius * Utils.offset, player.transform.position.x + spawnRadius * Utils.offset),
-            Random.Range(player.transform.position.y - spawnRadius * Utils.offset, player.transform.position.y + spawnRadius * Utils.offset),
-            FindObjectOfType<TileScript>().GetLayer(this.transform.position)), Quaternion.identity);
+            Random.Range(player.transform.position.y - spawnRadius * Utils.offset, player.transform.position.y + spawnRadius * Utils.offset));
+        
+        instancePosition.z = instancePosition.y;
+
+        instance = Instantiate(orbPrefab, instancePosition, Quaternion.identity);
         instance.transform.SetParent(objectParent.transform);
         instance.transform.localScale = new Vector3(power, power, 1);
     }

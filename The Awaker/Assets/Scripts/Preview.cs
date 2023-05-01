@@ -10,11 +10,14 @@ public class Preview : MonoBehaviour
     private Vector3Int pos;
     private Vector3 posv3;
     public GameObject prefab;
+    public int mode = 0;
 
     void Start() {
-        Instantiate(prefab, Vector3.zero, Quaternion.identity).transform.SetParent(this.gameObject.transform);
-        this.GetComponent<BoxCollider2D>().size = (Vector2) prefab.GetComponent<Renderer>().bounds.size;
-        this.GetComponent<BoxCollider2D>().offset += (Vector2) prefab.GetComponent<Renderer>().bounds.center;
+        // Instantiate(prefab, Vector3.zero, Quaternion.identity).transform.SetParent(this.gameObject.transform);
+        // this.GetComponent<BoxCollider2D>().size = (Vector2) prefab.GetComponent<Renderer>().bounds.size;
+        // this.GetComponent<BoxCollider2D>().offset += (Vector2) prefab.GetComponent<Renderer>().bounds.center;
+
+        
         // this.GetComponent<BoxCollider2D>().offset = (Vector2) prefab.GetComponent<Renderer>().bounds.extents;
         // Debug.Log(prefab.GetComponent<Renderer>().bounds.center);
         // Debug.Log(prefab.GetComponent<SpriteRenderer>().sprite.pivot);
@@ -40,5 +43,9 @@ public class Preview : MonoBehaviour
         if(collision.gameObject.tag == "PlacedObject") {
             FindObjectOfType<PropScript>().SetCanPlace(true);
         }
+    }
+
+    public void SetBrushPrefab(GameObject prefab) {
+        this.prefab = prefab;
     }
 }
