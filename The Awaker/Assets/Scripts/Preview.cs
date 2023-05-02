@@ -130,4 +130,9 @@ public class Preview : MonoBehaviour
         propCollider.size = (Vector2) prefabCollider.size;
         propCollider.offset = (Vector2) prefabCollider.offset;  
     }
+
+    public void ToggleMode() {
+        if(isPaintingMaterials) SetPropBrush();
+        else SetMaterialsBrush();
+    }
 }
