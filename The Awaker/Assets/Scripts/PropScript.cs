@@ -68,7 +68,7 @@ public class PropScript : MonoBehaviour
                 // Debug.Log("Tile GO: " + highlightMap.GetInstantiatedObject(currentCell));
                 GameObject tileGameObject = highlightMap.GetInstantiatedObject(currentCell);
                 tileGameObject.transform.position = new Vector3(tileGameObject.transform.position.x, tileGameObject.transform.position.y, tileGameObject.transform.position.y);
-                Debug.Log("prop: " + tileGameObject.transform.position);
+                // Debug.Log("prop: " + tileGameObject.transform.position);
 
                 // highlightMap.GetInstantiatedObject(currentCell).transform.position = currentCell.y;
                 // Debug.Log("Tile TM: " + highlightMap.GetTransformMatrix(currentCell));
@@ -96,10 +96,12 @@ public class PropScript : MonoBehaviour
         if(Input.GetAxis("Mouse ScrollWheel") < 0f && isDrawnable) {
             hotbarSelectedItem = (hotbarSelectedItem + 1) % hotbar.Count; 
             FindObjectOfType<SetHotbarProps>().SetSelected(hotbarSelectedItem);
+            FindObjectOfType<Preview>().SetPropBrushPrefab(GetHotbarSelectedPrefab());
         }
         else if(Input.GetAxis("Mouse ScrollWheel") > 0f && isDrawnable) {
             hotbarSelectedItem = hotbarSelectedItem - 1 < 0 ? hotbarSelectedItem = hotbar.Count - 1 : --hotbarSelectedItem; 
             FindObjectOfType<SetHotbarProps>().SetSelected(hotbarSelectedItem);
+            FindObjectOfType<Preview>().SetPropBrushPrefab(GetHotbarSelectedPrefab());
         }
     }
 
@@ -113,6 +115,10 @@ public class PropScript : MonoBehaviour
 
     public List<GameObject> GetHotbar() {
         return hotbar;
+    }
+
+    public GameObject GetHotbarSelectedPrefab() {
+        return hotbar[hotbarSelectedItem];
     }
 
     public GameObject GetHotbarItem(int index) {

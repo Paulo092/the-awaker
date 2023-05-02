@@ -22,7 +22,9 @@ public class TileScript : MonoBehaviour
     public TileBase tile;
 
     // Start is called before the first frame update
-    void Start() { }
+    void Start() {
+        FindObjectOfType<Preview>().SetMaterialsBrushSprite(this.GetSelectedHotbar());
+    }
 
     // Update is called once per frame
     void Update()
@@ -75,10 +77,12 @@ public class TileScript : MonoBehaviour
         if(Input.GetAxis("Mouse ScrollWheel") < 0f && isDrawnable) {
             hotbarSelectedItem = (hotbarSelectedItem + 1) % hotbar.Count; 
             FindObjectOfType<SetHotbarMaterials>().SetSelected(hotbarSelectedItem);
+            FindObjectOfType<Preview>().SetMaterialsBrushSprite(this.GetSelectedHotbar());
         }
         else if(Input.GetAxis("Mouse ScrollWheel") > 0f && isDrawnable) {
             hotbarSelectedItem = hotbarSelectedItem - 1 < 0 ? hotbarSelectedItem = hotbar.Count - 1 : --hotbarSelectedItem; 
             FindObjectOfType<SetHotbarMaterials>().SetSelected(hotbarSelectedItem);
+            FindObjectOfType<Preview>().SetMaterialsBrushSprite(this.GetSelectedHotbar());
         }
     }
 
@@ -96,6 +100,10 @@ public class TileScript : MonoBehaviour
 
     public int GetHotbarIndex() {
         return hotbarSelectedItem;
+    }
+
+    public Sprite GetSelectedHotbar() {
+        return hotbar[hotbarSelectedItem].sprite;
     }
 
     public int GetTilesPlaced() {

@@ -10,6 +10,7 @@ public class OrbSpawn : MonoBehaviour
     private float power;
 
     void Start() {
+        
         InvokeRepeating("SpawnOrb", 10.0f, spawnTick);
     }
 
