@@ -14,6 +14,8 @@ public class PlayerMovement : MonoBehaviour
     public const float walkSpeed = 0.02f, runSpeed = 0.03f;
     private Rigidbody2D rb2d;
 
+    public AudioClip footstepsSound;
+
     void Start() {
         nowSpeed = 0f;
         facingRight = true;
@@ -31,6 +33,10 @@ public class PlayerMovement : MonoBehaviour
             facingRight = !facingRight;
         }
 	}
+
+    public void PlayFootsteps() {
+        SoundManager.Instance.PlaySound(footstepsSound);
+    }
 
     void FixedUpdate() {
         nowSpeed = Input.GetKey(KeyCode.LeftShift) ? runSpeed : walkSpeed;

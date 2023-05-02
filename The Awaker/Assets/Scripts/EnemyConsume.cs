@@ -13,6 +13,7 @@ public class EnemyConsume : MonoBehaviour
     private float killDistance = 1.10F;
     private GameObject player, killKey, tileMap;
     private Tilemap tilemap;
+    [SerializeField] public AudioClip dieSound;
 
     // Start is called before the first frame update
     void Start() {
@@ -60,6 +61,10 @@ public class EnemyConsume : MonoBehaviour
         killElegible = Vector2.Distance(player.transform.position, this.transform.position) <= killDistance ? true : false;
     }
 
+    public void Die() {
+        Destroy(this);
+    }
+
     private void Goto() {
         // this.transform.position = new Vector3(transform.position.x, transform.position.y, tilemap.CellToWorld(tilemap.WorldToCell(this.transform.position)).y);
         gotoPosition = Utils.SetLayer(FindObjectOfType<TileScript>().GetRandomCellGlobalPosition(), Utils.L_ENEMY);
@@ -68,6 +73,12 @@ public class EnemyConsume : MonoBehaviour
     void OnTriggerStay2D(Collider2D other) {
         if(other.CompareTag("PlacedObject") && inConsumeMode) {
             FindObjectOfType<TileScript>().DestroyTileAt(this.GetComponent<Renderer>().bounds.center, 2);
+        }
+
+        if(killElegible && Input.GetKey(KeyCode.E)) {
+            SoundManager.Instance.PlaySound(dieSound);
+            animator.SetBool("isDead", true);
+            FindObjectOfType<EnemySpawn>().isEnemySpawned = false;
         }
 
     }

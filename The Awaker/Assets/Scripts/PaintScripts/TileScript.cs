@@ -7,7 +7,7 @@ public class TileScript : MonoBehaviour
 {
     public Tile highlightTile;
     public Tilemap highlightMap;
-    public Camera mainCamera;
+    // public Camera mainCamera;
     public List<Tile> hotbar = new List<Tile>();
     [ReadOnly, SerializeField] private int hotbarSelectedItem;
     public List<Vector3> availablePlaces;
@@ -39,7 +39,7 @@ public class TileScript : MonoBehaviour
 
         // GetRandomCellGlobalPosition();        
 
-        Vector3Int currentCell = highlightMap.WorldToCell(Utils.GetWorldMousePosition(Input.mousePosition, mainCamera));
+        Vector3Int currentCell = highlightMap.WorldToCell(Utils.GetWorldMousePosition(Input.mousePosition));
 
         if(Input.GetMouseButton(0) && !Utils.isOverUI() && isDrawnable) {
             // ptile.gameObject = prefabA;
@@ -88,6 +88,10 @@ public class TileScript : MonoBehaviour
 
     public void setDrawnable(bool value) {
         isDrawnable = value;
+    }
+
+    public void SetHotbarItem(int index, Tile newTile) {
+        hotbar[index] = newTile;
     }
 
     public List<Tile> GetHotbar() {
@@ -148,20 +152,5 @@ public class TileScript : MonoBehaviour
                     highlightMap.SetTile(circleCenter + new Vector3Int(i, j), null);
             }
         }
-
-        // highlightMap.SetTile(circleCenter, null);
-        // highlightMap.SetTile(circleCenter + new Vector3Int(1, 0), null);
-        // highlightMap.SetTile(circleCenter + new Vector3Int(0, 1), null);
-        // highlightMap.SetTile(circleCenter + new Vector3Int(-1, 0), null);
-        // highlightMap.SetTile(circleCenter + new Vector3Int(0, -1), null);
-    }
-
-    public void DebugRTile() {
-        // Debug.Log(GetRandomCellGlobalPosition());
-        GetRandomCellGlobalPosition();
-    }
-
-    public void GetAllTiles() {
-        
     }
 }

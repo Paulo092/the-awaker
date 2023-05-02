@@ -8,13 +8,13 @@ public class EnemyKillEvent : MonoBehaviour {
     private YieldInstruction fadeInstruction = new YieldInstruction();
     private float fadeTime = 0.5f;
 
-    void OnCollisionStay2D(Collision2D collider) {
-        if(collider.gameObject.tag == "Enemy" && Input.GetKey(KeyCode.E)) {
-            SoundManager.Instance.PlaySound(dieSound);
-            StartCoroutine(FadeOut(collider.gameObject));
-            FindObjectOfType<EnemySpawn>().isEnemySpawned = false;
-        }
-    }
+    // void OnCollisionStay2D(Collision2D collider) {
+    //     if(collider.gameObject.tag == "Enemy" && Input.GetKey(KeyCode.E)) {
+    //         SoundManager.Instance.PlaySound(dieSound);
+    //         StartCoroutine(FadeOut(collider.gameObject));
+    //         FindObjectOfType<EnemySpawn>().isEnemySpawned = false;
+    //     }
+    // }
 
     IEnumerator FadeOut(GameObject target) {
         float elapsedTime = 0.0f;

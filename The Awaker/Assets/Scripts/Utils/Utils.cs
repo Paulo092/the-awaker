@@ -30,7 +30,8 @@ public class Utils : MonoBehaviour {
         return new Vector3(coordinate.x, coordinate.y, newLayer);
     }
 
-    public static Vector3 GetWorldMousePosition(Vector3 screenPosition, Camera mainCamera) {
+    public static Vector3 GetWorldMousePosition(Vector3 screenPosition) {
+        Camera mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
         return Utils.SetLayer(mainCamera.ScreenToWorldPoint(screenPosition), 0);
     }
 
@@ -55,5 +56,9 @@ public class Utils : MonoBehaviour {
         }
 
         Destroy(target);     
+    }
+
+    public static Vector3 GetLayeredPosition(Vector3 position) {
+        return new Vector3(position.x, position.y, position.y);
     }
 }

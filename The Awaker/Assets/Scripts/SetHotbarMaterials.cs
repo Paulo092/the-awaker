@@ -34,6 +34,10 @@ public class SetHotbarMaterials : MonoBehaviour {
         selectedIndex = index;
     }
 
+    public void SetHotbarItem(int index, Sprite newSprite) {
+        hotbarItems[index].Find("ImageMaterial").gameObject.GetComponent<Image>().sprite = newSprite;
+    }
+
     public void ToggleMaterials(GameObject panel) {
         panel.SetActive(!panel.activeSelf);
     }

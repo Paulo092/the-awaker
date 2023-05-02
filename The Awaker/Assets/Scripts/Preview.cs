@@ -5,25 +5,26 @@ using UnityEngine;
 
 public class Preview : MonoBehaviour
 {
-    public Camera mainCamera;
+    // public Camera mainCamera;
     public Tilemap tileMap;
     private Vector3Int pos;
     private Vector3 posv3;
     public GameObject materialBrush, propBrush;
     public bool isPaintingMaterials = true;
-    private BoxCollider2D collider;
+    private BoxCollider2D propCollider;
 
     void Start() {
         // Instantiate(prefab, Vector3.zero, Quaternion.identity).transform.SetParent(this.gameObject.transform);
         // this.GetComponent<BoxCollider2D>().size = (Vector2) prefab.GetComponent<Renderer>().bounds.size;
         // this.GetComponent<BoxCollider2D>().offset += (Vector2) prefab.GetComponent<Renderer>().bounds.center;
-        collider = this.GetComponent<BoxCollider2D>();
+        propCollider = this.GetComponent<BoxCollider2D>();
 
         materialBrush = gameObject.transform.Find("MaterialBrush").gameObject;
         materialBrush.SetActive(true);
 
         propBrush = gameObject.transform.Find("PropBrush").gameObject;
         propBrush.SetActive(false);
+        // propBrush.GetComponent<SpriteRenderer>().color = defaultColor;
 
         SetPropBrushPrefab(FindObjectOfType<PropScript>().GetHotbarSelectedPrefab());
 
@@ -33,11 +34,21 @@ public class Preview : MonoBehaviour
     void Update() {
         
         // this.transform.position = Utils.GetSpacedPosition(Utils.GetWorldMousePosition(Input.mousePosition, mainCamera));
-        pos = tileMap.WorldToCell(Utils.GetWorldMousePosition(Input.mousePosition, mainCamera));
+        pos = tileMap.WorldToCell(Utils.GetWorldMousePosition(Input.mousePosition));
         posv3 = tileMap.CellToWorld(pos);
         posv3.x += 0.16f/2f;
         posv3.y += 0.16f/2f;
+        posv3.z = posv3.y;
         this.transform.position = posv3;
+
+        if(Utils.isOverUI()) {
+            propBrush.SetActive(false);
+            materialBrush.SetActive(false);
+        } else {
+            propBrush.SetActive(!isPaintingMaterials);
+            materialBrush.SetActive(isPaintingMaterials);
+        }
+
     }
 
     void OnTriggerStay2D(Collider2D other) {
@@ -66,6 +77,7 @@ public class Preview : MonoBehaviour
     // }
 
     public void SetPropBrush() {
+        isPaintingMaterials = false;
         materialBrush.SetActive(false);
         propBrush.SetActive(true);
         // SetPrefab(newPrefab);
@@ -92,6 +104,7 @@ public class Preview : MonoBehaviour
     }
 
     public void SetMaterialsBrush() {
+        isPaintingMaterials = true;
         materialBrush.SetActive(true);
         propBrush.SetActive(false);
         // Destroy(prefab);
@@ -114,7 +127,7 @@ public class Preview : MonoBehaviour
 
         // collider.size = (Vector2) propBrush.GetComponent<Renderer>().bounds.size;
         // collider.offset = (Vector2) propBrush.GetComponent<SpriteRenderer>().localBounds.center;  
-        collider.size = (Vector2) prefabCollider.size;
-        collider.offset = (Vector2) prefabCollider.offset;  
+        propCollider.size = (Vector2) prefabCollider.size;
+        propCollider.offset = (Vector2) prefabCollider.offset;  
     }
 }

@@ -27,13 +27,17 @@ public class SetHotbarProps : MonoBehaviour {
     //     hotbarItems[index].Find("ImageMaterial").GetComponent<Image> = material
     // }
 
+    public void SetHotbarItem(int index, Sprite newSprite) {
+        hotbarItems[index].Find("ImageMaterial").gameObject.GetComponent<Image>().sprite = newSprite;
+    }
+
     public void SetSelected(int index) {
         hotbarItems[selectedIndex].transform.localScale = hotbarItems[selectedIndex].transform.localScale / 1.3f;
         hotbarItems[index].transform.localScale = hotbarItems[selectedIndex].transform.localScale * 1.3f;
         selectedIndex = index;
     }
 
-    public void ToggleMaterials(GameObject panel) {
+    public void ToggleProps(GameObject panel) {
         panel.SetActive(!panel.activeSelf);
     }
 
