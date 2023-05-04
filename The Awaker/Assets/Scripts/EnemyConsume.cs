@@ -62,6 +62,7 @@ public class EnemyConsume : MonoBehaviour
     }
 
     public void Die() {
+        SoundManager.Instance.PlaySound(dieSound);
         Destroy(this);
     }
 
